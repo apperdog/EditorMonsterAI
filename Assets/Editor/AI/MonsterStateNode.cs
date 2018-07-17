@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace EditorMonsterAI
 {
-  public class MonsterStateNode : BaseNode
+  public class MonsterStateNode : BaseInputNode
   {
     // 視窗高寬
     private int width, height, height2;

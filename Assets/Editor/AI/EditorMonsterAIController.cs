@@ -79,6 +79,12 @@ namespace EditorMonsterAI
           bool clickedOnWindow = false;
           int selectedIndex = -1;
 
+          for (int i = 0; i < windows.Count; i++)
+          {
+            if (Event.current.GetTypeForControl(windows[i].windIndex) == EventType.Used)
+              Debug.Log(windows[i].windIndex);
+          }
+
           // 不是點下 Node
           if (!clickedOnWindow)
           {
@@ -179,8 +185,8 @@ namespace EditorMonsterAI
       windows[id].DrawWindow();
       GUI.DragWindow();
 
-      if (Event.current.GetTypeForControl(id) == EventType.Used)
-        windows[id].OnClick();
+      //if (Event.current.GetTypeForControl(id) == EventType.Used)
+      //  windows[id].OnClick();
     }
 
     #region 左鍵建立視窗

@@ -3,7 +3,7 @@ using MonsterAISystem;
 
 namespace EditorMonsterAI
 {
-  public class MonsterAINode : BaseNode
+  public class MonsterAINode : BaseInputNode
   {
     public MonsterAIBehaviour monsterAI;
 
