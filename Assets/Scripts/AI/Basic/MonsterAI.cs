@@ -125,5 +125,16 @@ namespace MonsterAISystem
     StateUpdate,
   }
 
+  [Serializable]
+  public class JsonMonsterAI : IDataBase
+  {
+    [SerializeField] public bool bFrist;
+    [SerializeField] public string enter, excuse, exit;
+
+    public void Destory()
+    {
+
+    }
+  }
 }
 

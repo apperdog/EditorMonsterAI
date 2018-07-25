@@ -98,6 +98,15 @@ public class PushInt : IDataBase
   }
 }
 
+public class PushString : IDataBase
+{
+  public string pushString;
+
+  public void Destory()
+  {
+  }
+}
+
 
 public class DataDictionary<T1, T2> : IDataBase
 {
