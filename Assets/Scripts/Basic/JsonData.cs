@@ -64,4 +64,10 @@ public class JsonDataList : ISerializationCallbackReceiver
   {
     return JsonUtility.ToJson(this);
   }
+
+  public void Clear()
+  {
+    dataBases.Clear();
+    jsonDatas.Clear();
+  }
 }

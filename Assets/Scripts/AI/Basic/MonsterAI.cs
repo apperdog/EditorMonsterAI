@@ -129,7 +129,10 @@ namespace MonsterAISystem
   public class JsonMonsterAI : IDataBase
   {
     [SerializeField] public bool bFrist;
+    [SerializeField] public int typeID;
+    [SerializeField] public string typeName;
     [SerializeField] public string enter, excuse, exit;
+    [SerializeField] public int currestConditionID, nextConditionID;
 
     public void Destory()
     {

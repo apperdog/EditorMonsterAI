@@ -15,21 +15,21 @@ public class Test : MonoBehaviour
   public TestData2 testData2;
 
 	void Start () {
-    testData = new TestData();
-    testData.enter = "u";
-    testData.enter2 = "hh";
-    testData.yo = new List<string>();
-    testData.yo.Add("ghf");
+    //testData = new TestData();
+    //testData.enter = "u";
+    //testData.enter2 = "hh";
+    //testData.yo = new List<string>();
+    //testData.yo.Add("ghf");
 
-    testData2 = new TestData2();
-    testData2.enter = 2;
-    testData2.enter2 = 2;
+    //testData2 = new TestData2();
+    //testData2.enter = 2;
+    //testData2.enter2 = 2;
 
-    Data d = new Data();
-    d.Set(testData);
-    d.Set(testData2);
+    //Data d = new Data();
+    //d.Set(testData);
+    //d.Set(testData2);
 
-    Save(path, d);
+    //Save(path, d);
 
     //Data data;
 
@@ -39,6 +39,27 @@ public class Test : MonoBehaviour
     //  var json = file.ReadToEnd();
     //  file.Close();
     //  data = JsonUtility.FromJson<Data>(json);
+    //}
+
+    //JsonDataList jsonData;
+
+    //if (File.Exists(path))
+    //{
+    //  var file = File.OpenText(path);
+    //  var json = file.ReadToEnd();
+    //  file.Close();
+    //  jsonData = JsonUtility.FromJson<JsonDataList>(json);
+    //}
+
+
+    //for (int i = 0; i < dataBases.Count; i++)
+    //{
+    //  JsonMonsterAI json = (JsonMonsterAI)dataBases[i];
+    //  Type type = Type.GetType("MonsterAISystem." + json.typeName);
+
+    //  MonsterStateBase d = (MonsterStateBase)Activator.CreateInstance(type);
+
+    //  Debug.Log(d);
     //}
 
     Debug.Log("");

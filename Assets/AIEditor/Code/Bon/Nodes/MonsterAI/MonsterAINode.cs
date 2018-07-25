@@ -83,10 +83,21 @@ namespace Assets.Code.Bon.Nodes.MonsterAINode
     public override IDataBase GetDataBase()
     {
       JsonMonsterAI json = new JsonMonsterAI();
+
       json.bFrist = bFrist;
+
       json.enter = enter;
       json.excuse = excuse;
       json.exit = exit;
+
+      json.typeID = Id;
+
+      if (outSocket.IsConnected())
+      {
+
+      }
+
+      json.typeName = "MonsterStateBase";
 
       return json;
     }
