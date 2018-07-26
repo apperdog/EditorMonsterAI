@@ -6,8 +6,8 @@ namespace Assets.Code.Bon.Nodes
 {
   public abstract class AbstracStateConditionNode : Node, IStateConditionNode
   {
-    [NonSerialized] protected OutputSocket outSocket;
-    [NonSerialized] protected InputSocket inputSocket01;
+    [NonSerialized] public OutputSocket outSocket;
+    [NonSerialized] public InputSocket inputSocket01;
 
     public AbstracStateConditionNode(int id, Graph parent) : base(id, parent)
     {
@@ -16,6 +16,17 @@ namespace Assets.Code.Bon.Nodes
 
       Sockets.Add(outSocket);
       Sockets.Add(inputSocket01);
+    }
+
+    public int GetOutputAI()
+    {
+      if (outSocket.IsConnected())
+      {
+        AbstracMonsterAINode node = (AbstracMonsterAINode)outSocket.GetConnectedSocket(0).Parent;
+        return node.Id;
+      }
+
+      return -1;
     }
   }
 }

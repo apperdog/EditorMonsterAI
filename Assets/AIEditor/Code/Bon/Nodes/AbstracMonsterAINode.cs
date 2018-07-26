@@ -1,8 +1,9 @@
 ﻿
 using System;
+using UnityEngine;
 using Assets.Code.Bon.Socket;
 using Assets.Code.Bon.Interface;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace Assets.Code.Bon.Nodes
 {
@@ -40,6 +41,27 @@ namespace Assets.Code.Bon.Nodes
       }
 
       return string.Empty;
+    }
+
+    public List<int> GetConditionID()
+    {
+      List<int> input = new List<int>();
+
+      if (outSocket.IsConnected())
+      {
+        // 遍尋所有連接的狀態條件
+        for (int i = 0; i < outSocket.ConnectedCount; i++)
+        {
+          // 狀態條件
+          AbstracStateConditionNode node = (AbstracStateConditionNode)outSocket.GetConnectedSocket(i).Parent;
+
+          // 該狀態條件有下一個狀態
+          if (node.outSocket.IsConnected())
+            input.Add(node.Id);
+        }
+      }
+
+      return input;
     }
   }
 }

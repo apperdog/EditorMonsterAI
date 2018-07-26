@@ -19,7 +19,15 @@ namespace Assets.Code.Bon.Socket
 			return Edges.Count > 0;
 		}
 
-		public override bool Intersects(Vector2 nodePosition)
+    public int ConnectedCount
+    {
+      get
+      {
+        return Edges.Count;
+      }
+    }
+
+    public override bool Intersects(Vector2 nodePosition)
 		{
 			if (Parent.Collapsed) return false;
 			return BoxRect.Contains(nodePosition);

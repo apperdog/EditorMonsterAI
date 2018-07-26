@@ -8,5 +8,16 @@ namespace MonsterAISystem
   {
 
   }
+
+  public class JsonCondition : JsonBase, IDataBase
+  {
+    [SerializeField] public int typeID;
+    [SerializeField] public int nextConditionID;
+
+    public void Destory()
+    {
+
+    }
+  }
 }
 

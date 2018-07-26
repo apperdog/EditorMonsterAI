@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using MonsterAISystem;
+using System.Collections.Generic;
 
 namespace Assets.Code.Bon.Nodes.MonsterAINode
 {
@@ -82,6 +83,8 @@ namespace Assets.Code.Bon.Nodes.MonsterAINode
 
     public override IDataBase GetDataBase()
     {
+      MonsterStateBase monster = new MonsterStateBase();
+
       JsonMonsterAI json = new JsonMonsterAI();
 
       json.bFrist = bFrist;
@@ -91,13 +94,9 @@ namespace Assets.Code.Bon.Nodes.MonsterAINode
       json.exit = exit;
 
       json.typeID = Id;
+      json.currestConditionID = GetConditionID();
 
-      if (outSocket.IsConnected())
-      {
-
-      }
-
-      json.typeName = "MonsterStateBase";
+      json.createType = monster.GetType().FullName;
 
       return json;
     }

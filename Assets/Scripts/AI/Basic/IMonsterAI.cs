@@ -1,61 +1,14 @@
 ﻿using System;
+using GlobalEnum;
 using UnityEngine;
 using StateControl;
 using System.Collections.Generic;
 
 namespace MonsterAISystem
 {
-  public class MonsterAI : MonoBehaviour
+  public interface IMonsterAI
   {
-    public MonsterAIBehaviour monsterAI;
-  }
-
-  [Serializable]
-  public class MonsterAIBehaviour : IMonsterAI
-  {
-    [SerializeField]
-    private AIStateType aiState;
-    [SerializeField]
-    public MonsterStateMachine stateMachine { get; private set; }
-
-    [HideInInspector]
-    [SerializeField]
-    private Vector2 editorPostion;
-
-    public MonsterAIBehaviour()
-    {
-      aiState = AIStateType.StateUpdate;
-      stateMachine = new MonsterStateMachine(this);
-    }
-
-    public void OnUpdate()
-    {
-      switch (aiState)
-      {
-        case AIStateType.StateUpdate:
-          stateMachine.OnUpdate();
-          break;
-      }
-    }
-
-    public void CheckCondition()
-    {
-
-    }
-
-    public AIStateType AIState
-    {
-      set { aiState = value; }
-      get { return aiState; }
-    }
-
-#if UNITY_EDITOR
-    public Vector2 EditorPostion
-    {
-      get { return editorPostion; }
-      set { editorPostion = value; }
-    }
-#endif
+    AIStateType AIState { get; set; }
   }
 
   [Serializable]
@@ -110,29 +63,18 @@ namespace MonsterAISystem
     {
       MonsterStateBase monsterState = null;
 
-      if(monsterStates.TryGetValue(key, out monsterState))
+      if (monsterStates.TryGetValue(key, out monsterState))
         machine.ChangeState(monsterState);
     }
   }
 
-  public interface IMonsterAI
-  {
-    AIStateType AIState { get; set; }
-  }
-
-  public enum AIStateType
-  {
-    StateUpdate,
-  }
-
   [Serializable]
-  public class JsonMonsterAI : IDataBase
+  public class JsonMonsterAI : JsonBase, IDataBase
   {
     [SerializeField] public bool bFrist;
     [SerializeField] public int typeID;
-    [SerializeField] public string typeName;
     [SerializeField] public string enter, excuse, exit;
-    [SerializeField] public int currestConditionID, nextConditionID;
+    [SerializeField] public List<int> currestConditionID;
 
     public void Destory()
     {

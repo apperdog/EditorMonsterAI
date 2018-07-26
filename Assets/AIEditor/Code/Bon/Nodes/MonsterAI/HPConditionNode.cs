@@ -85,6 +85,26 @@ namespace Assets.Code.Bon.Nodes.MonsterAINode
     {
 
     }
+
+    public override IDataBase GetDataBase()
+    {
+      HPCondition condition = new HPCondition();
+
+      JsonHPCondition json = new JsonHPCondition();
+
+      json.typeID = Id;
+
+      json.hp = hp;
+      json.hp2 = hp2;
+      json.percentage = percentage;
+      json.hpConditionType = (int)hpConditionType;
+
+      json.nextConditionID = GetOutputAI();
+
+      json.createType = condition.GetType().FullName;
+
+      return json;
+    }
   }
 }
 

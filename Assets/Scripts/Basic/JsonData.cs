@@ -15,6 +15,12 @@ public class JsonData: IDataBase
 }
 
 [Serializable]
+public class JsonBase
+{
+  [SerializeField] public string createType;
+}
+
+[Serializable]
 public class JsonDataList : ISerializationCallbackReceiver
 {
   [NonSerialized] public List<IDataBase> dataBases;

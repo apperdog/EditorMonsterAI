@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace MonsterAISystem
@@ -14,6 +13,15 @@ namespace MonsterAISystem
     Less,
     Greater,
     Between
+  }
+
+  [Serializable]
+  public class JsonHPCondition : JsonCondition
+  {
+    [SerializeField] public float hp;
+    [SerializeField] public float hp2;
+    [SerializeField] public bool percentage;
+    [SerializeField] public int hpConditionType;
   }
 }
 
