@@ -8,9 +8,11 @@ namespace MonsterAISystem
   [Serializable]
   public class MonsterStateBase : IMonsterStateBase
   {
-    public UnityEvent enterMethod;
-    public UnityEvent executeMethod;
-    public UnityEvent exitMethod;
+    private int id;
+
+    private UnityEvent enterMethod;
+    private UnityEvent executeMethod;
+    private UnityEvent exitMethod;
 
     /// <summary>
     /// 條件檢查
@@ -45,11 +47,22 @@ namespace MonsterAISystem
     {
 
     }
+
+    public void SetData(IDataBase data)
+    {
+      JsonMonsterAI jsonMonster = (JsonMonsterAI)data;
+      id = jsonMonster.typeID;
+    }
+
+    public int GetID { get { return id; } }
+
   }
 
   public interface IMonsterStateBase : IAIState<IMonsterAI>
   {
+    int GetID { get; }
     string CheckCondition();
+    void SetData(IDataBase data);
   }
 }
 

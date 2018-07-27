@@ -1,12 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace MonsterAISystem
 {
   public interface IStateCondition
   {
+    void SetData(IDataBase data);
 
+    int GetID { get; }
+    string CheckCondition();
   }
 
   public class JsonCondition : JsonBase, IDataBase

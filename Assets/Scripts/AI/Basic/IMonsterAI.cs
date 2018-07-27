@@ -11,19 +11,34 @@ namespace MonsterAISystem
     AIStateType AIState { get; set; }
   }
 
-  [Serializable]
+  /// <summary>
+  /// AI 容器
+  /// </summary>
   public class MonsterStateMachine
   {
-    [SerializeField]
-    public StateMachine<IMonsterAI> machine;
+    public StateMachine<IMonsterAI> machine;  // 狀態容器
 
-    [SerializeField]
-    public Dictionary<string, MonsterStateBase> monsterStates;
+    private Dictionary<int, MonsterStateBase> monsterStates;  // 狀態條件
+    private Dictionary<int, IStateCondition> monsterCondition;  // 狀態
 
     public MonsterStateMachine(IMonsterAI monsterAI)
     {
       machine = new StateMachine<IMonsterAI>(monsterAI);
-      monsterStates = new Dictionary<string, MonsterStateBase>();
+      monsterStates = new Dictionary<int, MonsterStateBase>();
+      monsterCondition = new Dictionary<int, IStateCondition>();
+    }
+
+    /// <summary>
+    /// 添加狀態
+    /// </summary>
+    public void SetCondition(IStateCondition condition)
+    {
+      monsterCondition.Add(condition.GetID, condition);
+    }
+
+    public void SetState(MonsterStateBase monsterState)
+    {
+      monsterStates.Add(monsterState.GetID, monsterState);
     }
 
     /// <summary>
@@ -41,25 +56,25 @@ namespace MonsterAISystem
     {
       var e = monsterStates.GetEnumerator();
 
-      // 循環所有條件檢查
-      while (e.MoveNext())
-      {
-        // 取得切換狀態名稱
-        string change = e.Current.Value.CheckCondition();
+      //// 循環所有條件檢查
+      //while (e.MoveNext())
+      //{
+      //  // 取得切換狀態名稱
+      //  string change = e.Current.Value.CheckCondition();
 
-        // 如果有切換狀態名稱
-        if (!string.IsNullOrEmpty(change))
-        {
-          ChangeState(change);
-          break;
-        }
-      }
+      //  // 如果有切換狀態名稱
+      //  if (!string.IsNullOrEmpty(change))
+      //  {
+      //    ChangeState(change);
+      //    break;
+      //  }
+      //}
     }
 
     /// <summary>
     /// 切換狀態
     /// </summary>
-    public void ChangeState(string key)
+    public void ChangeState(int key)
     {
       MonsterStateBase monsterState = null;
 

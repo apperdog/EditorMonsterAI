@@ -63,7 +63,16 @@ namespace MonsterAISystem
         // 狀態條件
         else if(typeof(JsonCondition).IsInstanceOfType(jsonData.dataBases[i]))
         {
+          JsonCondition json = (JsonCondition)jsonData.dataBases[i];
 
+          Type type = Type.GetType(json.createType);
+
+          var ob = Activator.CreateInstance(type);
+
+          IStateCondition condition = (IStateCondition)ob;
+          condition.SetData(json);
+
+          stateMachine.SetCondition(condition);
         }
       }
     }
