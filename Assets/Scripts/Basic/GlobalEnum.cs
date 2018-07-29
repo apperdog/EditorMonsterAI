@@ -15,6 +15,13 @@ namespace GlobalEnum
 
   public enum AIStateType
   {
+    Condition,
     StateUpdate,
+  }
+
+  public enum ValueType
+  {
+    HP,
+    MP,
   }
 }

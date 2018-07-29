@@ -1,35 +1,49 @@
 ﻿using System;
 using UnityEngine;
 using StateControl;
-using UnityEngine.Events;
+using System.Collections.Generic;
 
 namespace MonsterAISystem
 {
   [Serializable]
   public class MonsterStateBase : IMonsterStateBase
   {
-    private int id;
+    private int typeID;
+    private string monsterID;
 
-    private UnityEvent enterMethod;
-    private UnityEvent executeMethod;
-    private UnityEvent exitMethod;
+    private List<IStateCondition> conditionList; 
+
+    private Action<string> enterMethod;
+    private Action<string> executeMethod;
+    private Action<string> exitMethod;
+
+    public MonsterStateBase()
+    {
+      conditionList = new List<IStateCondition>();
+    }
 
     /// <summary>
     /// 條件檢查
     /// </summary>
-    public string CheckCondition()
+    public int CheckCondition()
     {
-      string change = string.Empty;
+      for (int i = 0; i < conditionList.Count; i++)
+      {
+        int stateID = conditionList[i].CheckCondition();
 
-      return change;
+        if (stateID > -1)
+          return stateID;
+      }
+
+      return -1;
     }
 
     /// <summary>
     /// 進入該狀態時做的事
     /// </summary>
-    public void Enter(IMonsterAI t)
+    public void Enter()
     {
-
+      enterMethod(monsterID);
     }
 
     /// <summary>
@@ -37,7 +51,7 @@ namespace MonsterAISystem
     /// </summary>
     public void Execute()
     {
-
+      executeMethod(monsterID);
     }
 
     /// <summary>
@@ -45,24 +59,57 @@ namespace MonsterAISystem
     /// </summary>    
     public void Exit()
     {
-
+      exitMethod(monsterID);
     }
 
-    public void SetData(IDataBase data)
+    public void SetData(IDataBase data, string id)
     {
       JsonMonsterAI jsonMonster = (JsonMonsterAI)data;
-      id = jsonMonster.typeID;
+
+      typeID = jsonMonster.typeID;
+      monsterID = id;
+
+      enterMethod = GetMethod(jsonMonster.enter);
+      executeMethod = GetMethod(jsonMonster.excuse);
+      exitMethod = GetMethod(jsonMonster.exit);
     }
 
-    public int GetID { get { return id; } }
+    private Action<string> GetMethod(string typeName)
+    {
+      if (!string.IsNullOrEmpty(typeName))
+      {
+        Type type = Type.GetType(string.Format("MonsterAISystem.{0}", typeName));
+
+        var m = Activator.CreateInstance(type);
+        AIMethod<string> aiMethod = (AIMethod<string>)m;
+
+        return aiMethod.Method;
+      }
+
+      return NoThing;
+    }
+
+    public void SetCondition(IStateCondition stateCondition)
+    {
+      conditionList.Add(stateCondition);
+    }
+
+    public void NoThing(string id)
+    {
+
+    }
+
+    public int GetNodeID { get { return typeID; } }
 
   }
 
-  public interface IMonsterStateBase : IAIState<IMonsterAI>
+  public interface IMonsterStateBase : IAIState
   {
-    int GetID { get; }
-    string CheckCondition();
-    void SetData(IDataBase data);
+    int GetNodeID { get; }
+    int CheckCondition();
+    void SetData(IDataBase data, string id);
+    void SetCondition(IStateCondition stateCondition);
+    void NoThing(string id);
   }
 }
 

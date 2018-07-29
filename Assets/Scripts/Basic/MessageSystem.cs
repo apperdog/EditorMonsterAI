@@ -3,12 +3,11 @@ using System.Collections.Generic;
 
 public class MessageSystem
 {
-  private static bool initialization;
-  private static Dictionary<string, IObserverBase> mvcDictionary;
+  private static Dictionary<string, IObserverBase> mvcDictionary = new Dictionary<string, IObserverBase>();
 
   private MessageSystem()
   {
-    mvcDictionary = new Dictionary<string, IObserverBase>();
+
   }
 
   /// <summary>
@@ -16,12 +15,6 @@ public class MessageSystem
   /// </summary>
   public static void AddListen<T>(string typeName, IObserverBase mVC_Base) where T : IObserverBase
   {
-    if (!initialization)
-    {
-      initialization = true;
-      new MessageSystem();
-    }
-
     mvcDictionary.Add(typeName, mVC_Base);
   }
 

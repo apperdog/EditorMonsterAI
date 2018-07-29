@@ -7,7 +7,8 @@ namespace MonsterAISystem
     void SetData(IDataBase data);
 
     int GetID { get; }
-    string CheckCondition();
+
+    int CheckCondition();
   }
 
   public class JsonCondition : JsonBase, IDataBase

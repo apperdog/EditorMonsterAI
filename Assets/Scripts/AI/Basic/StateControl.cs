@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace StateControl
 {
-  public interface IAIState<T>
+  public interface IAIState
   {
     /// <summary>
     /// 進入
     /// </summary>
-    void Enter(T t);
+    void Enter();
 
     /// <summary>
     /// 開始執行
@@ -29,11 +29,11 @@ namespace StateControl
     private T t;
 
     [SerializeField]
-    private IAIState<T> currestState;  // 當前
+    private IAIState currestState;  // 當前
     [SerializeField]
-    private IAIState<T> previousState;  // 上一個
+    private IAIState previousState;  // 上一個
     [SerializeField]
-    private IAIState<T> allState;
+    private IAIState allState;
 
     private bool bAllState;
     private bool bcurrestState;
@@ -53,10 +53,10 @@ namespace StateControl
     /// <summary>
     /// 設置當前狀態
     /// </summary>
-    public void SetCurrestState(IAIState<T> state)
+    public void SetCurrestState(IAIState state)
     {
       currestState = state;
-      currestState.Enter(t);
+      currestState.Enter();
 
       if (currestState != null)
         bcurrestState = true;
@@ -67,10 +67,10 @@ namespace StateControl
     /// <summary>
     /// 設置全域狀況
     /// </summary>
-    public void SetAllStata(IAIState<T> state)
+    public void SetAllStata(IAIState state)
     {
       allState = state;
-      allState.Enter(t);
+      allState.Enter();
 
       if (allState != null)
         bAllState = true;
@@ -82,12 +82,12 @@ namespace StateControl
     /// <summary>
     /// 狀態切換
     /// </summary>
-    public void ChangeState(IAIState<T> state)
+    public void ChangeState(IAIState state)
     {
       currestState.Exit();
       previousState = currestState;
       currestState = state;
-      currestState.Enter(t);
+      currestState.Enter();
     }
 
     /// <summary>

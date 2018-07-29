@@ -29,16 +29,40 @@ namespace MonsterAISystem
     }
 
     /// <summary>
-    /// 添加狀態
+    /// 添加狀態條件
     /// </summary>
     public void SetCondition(IStateCondition condition)
     {
       monsterCondition.Add(condition.GetID, condition);
     }
 
-    public void SetState(MonsterStateBase monsterState)
+    /// <summary>
+    /// 添加狀態
+    /// </summary>
+    public void SetState(JsonMonsterAI jsonMonster, MonsterStateBase monsterState)
     {
-      monsterStates.Add(monsterState.GetID, monsterState);
+      monsterStates.Add(monsterState.GetNodeID, monsterState);
+
+      for (int i = 0; i < jsonMonster.currestConditionID.Count; i++)
+        monsterState.SetCondition(monsterCondition[jsonMonster.currestConditionID[i]]);
+        
+    }
+
+    public void StartAI()
+    {
+      List<int> list = new List<int>(monsterStates.Keys);
+
+      machine.SetCurrestState(monsterStates[list[0]]);
+    }
+
+    public void Connection()
+    {
+      var e = monsterCondition.GetEnumerator();
+
+      while (e.MoveNext())
+      {
+
+      }
     }
 
     /// <summary>
@@ -56,19 +80,19 @@ namespace MonsterAISystem
     {
       var e = monsterStates.GetEnumerator();
 
-      //// 循環所有條件檢查
-      //while (e.MoveNext())
-      //{
-      //  // 取得切換狀態名稱
-      //  string change = e.Current.Value.CheckCondition();
+      // 循環所有條件檢查
+      while (e.MoveNext())
+      {
+        // 取得切換狀態名稱
+        int change = e.Current.Value.CheckCondition();
 
-      //  // 如果有切換狀態名稱
-      //  if (!string.IsNullOrEmpty(change))
-      //  {
-      //    ChangeState(change);
-      //    break;
-      //  }
-      //}
+        // 如果有切換狀態名稱
+        if (change > - 1)
+        {
+          ChangeState(change);
+          break;
+        }
+      }
     }
 
     /// <summary>
