@@ -22,7 +22,7 @@ namespace Assets.Code.Bon
 
 		// be warned to allow circles.. if you parse the graph you can end up in
 		// an endless recursion this can crash unity.
-		[HideInInspector] [SerializeField] public bool AllowCicles = false;
+		[HideInInspector] [SerializeField] public bool AllowCicles = true;
 
 		private bool _invalidating;
 

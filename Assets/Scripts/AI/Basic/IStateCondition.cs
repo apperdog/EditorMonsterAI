@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 
-namespace MonsterAISystem
+namespace StateControl
 {
   public interface IStateCondition
   {
     void SetData(IDataBase data);
 
     int GetID { get; }
+
+    string SetMonsterID { set; }
 
     int CheckCondition();
   }

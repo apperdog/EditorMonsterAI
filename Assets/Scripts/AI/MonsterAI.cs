@@ -3,15 +3,16 @@ using GlobalEnum;
 using UnityEngine;
 using StateControl;
 using MonsterAISystem;
+using System.Collections.Generic;
 
 public class MonsterAI : MonoBehaviour
 {
   public string monsterID;
-  public string resourcesID;
 
+  public List<string> resourcesID;
   public MonsterAIBehaviour monsterAI;
 
-  public void CreateAI()
+  public void StartAI()
   {
     monsterAI = new MonsterAIBehaviour(resourcesID, monsterID);
   }
@@ -26,14 +27,13 @@ namespace MonsterAISystem
 
     private AIStateType aiState;
 
-    public MonsterStateMachine stateMachine { get; private set; }
+    private MonsterStateMachine[] stateMachineList;
 
-    public MonsterAIBehaviour(string resourcesID, string monsterID)
+    public MonsterAIBehaviour(List<string> resourcesID, string monsterID)
     {
       this.monsterID = monsterID;
 
-      aiState = AIStateType.StateUpdate;  
-      stateMachine = new MonsterStateMachine(this);
+      aiState = AIStateType.StateUpdate;
 
       LoadData(resourcesID);
     }
@@ -41,8 +41,19 @@ namespace MonsterAISystem
     /// <summary>
     /// 讀取 AI的資料
     /// </summary>
-    public void LoadData(string resourcesID)
+    public void LoadData(List<string> resourcesIDList)
     {
+      stateMachineList = new MonsterStateMachine[resourcesIDList.Count];
+
+      for (int i = 0; i < resourcesIDList.Count; i++)
+        stateMachineList[i] = LoadData(resourcesIDList[i]);
+    }
+
+    public MonsterStateMachine LoadData(string resourcesID)
+    {
+      //
+      MonsterStateMachine monsterStateMachine = new MonsterStateMachine(this);
+
       // 取得 json資料
       TextAsset text = Resources.Load<TextAsset>(
         string.Format("1.MonsterAI/1.1.Json/{0}", resourcesID));
@@ -62,8 +73,9 @@ namespace MonsterAISystem
 
           IStateCondition condition = (IStateCondition)ob;
           condition.SetData(json);
+          condition.SetMonsterID = monsterID;
 
-          stateMachine.SetCondition(condition);
+          monsterStateMachine.SetCondition(condition);
 
           jsonData.dataBases.RemoveAt(i);
         }
@@ -82,26 +94,38 @@ namespace MonsterAISystem
 
           monsterState.SetData(json, monsterID);
 
-          stateMachine.SetState(json, monsterState);
+          monsterStateMachine.SetState(json, monsterState);
         }
       }
 
-      stateMachine.StartAI();
+      monsterStateMachine.StartAI();
+
+      return monsterStateMachine;
     }
 
     public void OnUpdate()
     {
+      for(int i = 0; i < stateMachineList.Length; i++)
+      {
+        switch (aiState)
+        {
+          case AIStateType.Condition:
+            stateMachineList[i].CheckCondition();
+            break;
+
+          case AIStateType.StateUpdate:
+            stateMachineList[i].OnUpdate();
+            break;
+        }
+      }
+
       switch (aiState)
       {
         case AIStateType.Condition:
-          stateMachine.CheckCondition();
-
           aiState = AIStateType.StateUpdate;
           break;
 
         case AIStateType.StateUpdate:
-          stateMachine.OnUpdate();
-
           aiState = AIStateType.Condition;
           break;
       }

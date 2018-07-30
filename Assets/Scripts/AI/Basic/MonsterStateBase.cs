@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 using StateControl;
 using System.Collections.Generic;
 
@@ -99,14 +98,14 @@ namespace MonsterAISystem
 
     }
 
-    public int GetNodeID { get { return typeID; } }
+    public List<IStateCondition> GetStateCondition { get { return conditionList; } }
 
+    public int GetNodeID { get { return typeID; } }
   }
 
-  public interface IMonsterStateBase : IAIState
+  public interface IMonsterStateBase : IAIState<int>
   {
     int GetNodeID { get; }
-    int CheckCondition();
     void SetData(IDataBase data, string id);
     void SetCondition(IStateCondition stateCondition);
     void NoThing(string id);

@@ -8,7 +8,17 @@ public class Test : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
-    monsterAI.CreateAI();
+    MonsterDataList dataList = DataSystem.GetSystem<MonsterDataList>();
+
+    MonsterData monsterData = new MonsterData();
+    monsterData.hp = 11;
+    monsterData.mp = 120;
+    monsterData.MaxHP = 120;
+    monsterData.MaxMP = 120;
+
+    dataList.SetData(monsterAI.monsterID, monsterData);
+
+    monsterAI.StartAI();
 	}
 	
 	// Update is called once per frame

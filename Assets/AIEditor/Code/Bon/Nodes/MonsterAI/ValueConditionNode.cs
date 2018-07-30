@@ -1,5 +1,4 @@
 ﻿using System;
-using GlobalEnum;
 using UnityEngine;
 using MonsterAISystem;
 

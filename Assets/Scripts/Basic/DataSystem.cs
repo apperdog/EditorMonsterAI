@@ -27,6 +27,15 @@ public class DataSystem
 
     if (dataSystemList.TryGetValue(typeof(T), out data))
       return (T)data;
+    else
+    {
+      Type type = typeof(T);
+      T t = (T)Activator.CreateInstance(type);
+
+      AddSystem<T>(t);
+
+      return t;
+    }
 
     return default(T);
   }
@@ -46,3 +55,115 @@ public class DataSystem
     }
   }
 }
+
+#region Base
+
+public class DataList<T> : IDataBase where T : new()
+{
+  private List<T> saveData;
+
+  public DataList()
+  {
+    saveData = new List<T>();
+  }
+
+  public DataList(IEnumerable<T> collection)
+  {
+    saveData = new List<T>(collection);
+  }
+
+  public void AddData(T t)
+  {
+    saveData.Add(t);
+  }
+
+  public T GetData(int index)
+  {
+    return saveData[index];
+  }
+
+  public int Count
+  {
+    get
+    {
+      return saveData.Count;
+    }
+  }
+
+  public void Destory()
+  {
+
+  }
+}
+
+public class DataDictionary<T1, T2> : IDataBase  
+  where T2 : new()
+{
+  protected Dictionary<T1, T2> saveData;
+
+  public DataDictionary()
+  {
+    saveData = new Dictionary<T1, T2>();
+  }
+
+  public virtual void Destory()
+  {
+
+  }
+
+  public T2 GetData(T1 t)
+  {
+    T2 getData;
+
+    if (saveData.TryGetValue(t, out getData))
+      return getData;
+
+    return default(T2);
+  }
+
+  public void SetData(T1 value, T2 data)
+  {
+    saveData[value] = data;
+  }
+
+  public void Remove(T1 t)
+  {
+    saveData.Remove(t);
+  }
+}
+
+public interface IDataBase
+{
+  void Destory();
+}
+
+public interface IObserverBase
+{
+  void OnEvent(PushOnEvent message);  // 事件傳遞
+}
+
+public struct PushOnEvent
+{
+  public string eventName;
+  public IDataBase pushData;
+}
+
+public class PushInt : IDataBase
+{
+  public int pushInt;
+
+  public void Destory()
+  {
+  }
+}
+
+public class PushString : IDataBase
+{
+  public string pushString;
+
+  public void Destory()
+  {
+  }
+}
+
+#endregion

@@ -1,9 +1,10 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace StateControl
 {
-  public interface IAIState
+  public interface IAIState<T>
   {
     /// <summary>
     /// 進入
@@ -19,33 +20,38 @@ namespace StateControl
     ///  離開
     /// </summary>
     void Exit();
+
+    /// <summary>
+    /// 條件檢查
+    /// </summary>
+    T CheckCondition();
+
+    /// <summary>
+    /// 取得條件
+    /// </summary>
+    List<IStateCondition> GetStateCondition { get; }
   }
 
 
   [Serializable]
-  public class StateMachine<T>
+  public class StateMachine<T, T2>
   {
     [SerializeField]
     private T t;
 
     [SerializeField]
-    private IAIState currestState;  // 當前
+    private IAIState<T2> currestState;  // 當前
     [SerializeField]
-    private IAIState previousState;  // 上一個
-    [SerializeField]
-    private IAIState allState;
+    private IAIState<T2> previousState;  // 上一個
 
-    private bool bAllState;
     private bool bcurrestState;
 
     public StateMachine(T t)
     {
       this.t = t;
 
-      bAllState = false;
       bcurrestState = false;
 
-      allState = null;
       currestState = null;
       previousState = null;
     }
@@ -53,7 +59,7 @@ namespace StateControl
     /// <summary>
     /// 設置當前狀態
     /// </summary>
-    public void SetCurrestState(IAIState state)
+    public void SetCurrestState(IAIState<T2> state)
     {
       currestState = state;
       currestState.Enter();
@@ -65,24 +71,9 @@ namespace StateControl
     }
 
     /// <summary>
-    /// 設置全域狀況
-    /// </summary>
-    public void SetAllStata(IAIState state)
-    {
-      allState = state;
-      allState.Enter();
-
-      if (allState != null)
-        bAllState = true;
-      else
-        bAllState = false;
-    }
-
-
-    /// <summary>
     /// 狀態切換
     /// </summary>
-    public void ChangeState(IAIState state)
+    public void ChangeState(IAIState<T2> state)
     {
       currestState.Exit();
       previousState = currestState;
@@ -97,8 +88,6 @@ namespace StateControl
     {
       try
       {
-        if (bAllState)
-          allState.Execute();
         if (bcurrestState)
           currestState.Execute();
       }
@@ -107,6 +96,23 @@ namespace StateControl
         Debug.Log(e.Message);
         throw;
       }
+    }
+
+    public int CheckCondition()
+    {
+      List<IStateCondition> stateConditions = currestState.GetStateCondition;
+
+      for(int i = 0; i < stateConditions.Count; i++)
+      {
+        // 取得切換狀態
+        int change = stateConditions[i].CheckCondition();
+
+        // 如果有切換狀態名稱
+        if (change > -1)
+          return change;
+      }
+
+      return -1;
     }
   }
 }

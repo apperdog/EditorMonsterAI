@@ -113,46 +113,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &275101011
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 275101013}
-  - component: {fileID: 275101012}
-  m_Layer: 0
-  m_Name: Bon
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &275101012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 275101011}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6f133d5466ee114790dfe21c01f4854, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &275101013
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 275101011}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &551638290
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,6 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 551638292}
   - component: {fileID: 551638291}
+  - component: {fileID: 551638293}
   m_Layer: 0
   m_Name: Test
   m_TagString: Untagged
@@ -177,10 +138,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 551638290}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 728dca74c5f31004a84aa8acc4846097, type: 3}
+  m_Script: {fileID: 11500000, guid: 9979c1874bcf4824f95066812b8d9c69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourcesID: 1.1.M001
+  monsterAI: {fileID: 551638293}
 --- !u!4 &551638292
 Transform:
   m_ObjectHideFlags: 0
@@ -192,8 +153,21 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &551638293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 551638290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11bba830233c41f4d8ef2dd5012ed061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterID: M001
+  resourcesID: []
 --- !u!1 &708716966
 GameObject:
   m_ObjectHideFlags: 0

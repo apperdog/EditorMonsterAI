@@ -16,14 +16,14 @@ namespace MonsterAISystem
   /// </summary>
   public class MonsterStateMachine
   {
-    public StateMachine<IMonsterAI> machine;  // 狀態容器
+    public StateMachine<IMonsterAI, int> machine;  // 狀態容器
 
     private Dictionary<int, MonsterStateBase> monsterStates;  // 狀態條件
     private Dictionary<int, IStateCondition> monsterCondition;  // 狀態
 
     public MonsterStateMachine(IMonsterAI monsterAI)
     {
-      machine = new StateMachine<IMonsterAI>(monsterAI);
+      machine = new StateMachine<IMonsterAI, int>(monsterAI);
       monsterStates = new Dictionary<int, MonsterStateBase>();
       monsterCondition = new Dictionary<int, IStateCondition>();
     }
@@ -44,8 +44,7 @@ namespace MonsterAISystem
       monsterStates.Add(monsterState.GetNodeID, monsterState);
 
       for (int i = 0; i < jsonMonster.currestConditionID.Count; i++)
-        monsterState.SetCondition(monsterCondition[jsonMonster.currestConditionID[i]]);
-        
+        monsterState.SetCondition(monsterCondition[jsonMonster.currestConditionID[i]]);     
     }
 
     public void StartAI()
@@ -53,16 +52,6 @@ namespace MonsterAISystem
       List<int> list = new List<int>(monsterStates.Keys);
 
       machine.SetCurrestState(monsterStates[list[0]]);
-    }
-
-    public void Connection()
-    {
-      var e = monsterCondition.GetEnumerator();
-
-      while (e.MoveNext())
-      {
-
-      }
     }
 
     /// <summary>
@@ -78,21 +67,8 @@ namespace MonsterAISystem
     /// </summary>
     public void CheckCondition()
     {
-      var e = monsterStates.GetEnumerator();
-
-      // 循環所有條件檢查
-      while (e.MoveNext())
-      {
-        // 取得切換狀態名稱
-        int change = e.Current.Value.CheckCondition();
-
-        // 如果有切換狀態名稱
-        if (change > - 1)
-        {
-          ChangeState(change);
-          break;
-        }
-      }
+      int change = machine.CheckCondition();
+      ChangeState(change);
     }
 
     /// <summary>
