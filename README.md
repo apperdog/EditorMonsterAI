@@ -7,7 +7,6 @@ https://github.com/aphex-/BrotherhoodOfNode
 ![Image](https://raw.githubusercontent.com/apperdog/EditorMonsterAI/master/show.png)
 
 ### 如何使用
-1.將Assets複製進專案裡
-
-2.選單，window => MonsterAI Editor
+  1.將Assets複製進專案裡
+  2.選單，window => MonsterAI Editor
 
