@@ -8,5 +8,6 @@ https://github.com/aphex-/BrotherhoodOfNode
 
 ### 如何使用
 <br>1.將Assets複製進專案裡</br>
-<br>2.選單，window => MonsterAI Editor</br>
+<br>2.打開選單，window => MonsterAI Editor</br>
 
+### 開始編輯
