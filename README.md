@@ -19,3 +19,7 @@ https://github.com/aphex-/BrotherhoodOfNode
 <br>1.MonsterAI => Control，建立狀態控制器。狀態控制器為，儲存該狀態執行的操作。執行的操作有，進入該狀態時、每次update時、離開該狀態時執行的方法。</br>
 2.Monster => Value Condition，建立條件判斷。
 <br>3.String => String，用來添加狀態控制器執行的方法名稱。</br>
+
+
+
+### 還在完善中....
