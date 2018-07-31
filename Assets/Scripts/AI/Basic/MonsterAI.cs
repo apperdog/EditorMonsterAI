@@ -20,6 +20,10 @@ public class MonsterAI : MonoBehaviour
 
 namespace MonsterAISystem
 {
+  public interface IMonsterAI
+  {
+    AIStateType AIState { get; set; }
+  }
 
   public class MonsterAIBehaviour : IMonsterAI
   {
@@ -52,7 +56,7 @@ namespace MonsterAISystem
     public MonsterStateMachine LoadData(string resourcesID)
     {
       //
-      MonsterStateMachine monsterStateMachine = new MonsterStateMachine(this);
+      MonsterStateMachine monsterStateMachine = new MonsterStateMachine();
 
       // 取得 json資料
       TextAsset text = Resources.Load<TextAsset>(

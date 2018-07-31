@@ -94,7 +94,6 @@ namespace Assets.Code.Bon.Nodes.MonsterAINode
       json.exit = exit;
 
       json.typeID = Id;
-      json.currestConditionID = GetConditionID();
 
       json.createType = monster.GetType().FullName;
 

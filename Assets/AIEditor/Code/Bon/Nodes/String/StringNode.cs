@@ -43,8 +43,11 @@ namespace Assets.Code.Bon.Nodes.String
     {
       if (outputSocket.IsConnected())
       {
-        Node node = (Node)outputSocket.GetConnectedSocket(0).Parent;
-        node.Update();
+        for (int i = 0; i < outputSocket.ConnectedCount; i++)
+        {
+          Node node = (Node)outputSocket.GetConnectedSocket(i).Parent;
+          node.Update();
+        }
       }
     }
 

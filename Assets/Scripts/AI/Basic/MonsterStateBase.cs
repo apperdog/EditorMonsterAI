@@ -1,6 +1,5 @@
 ﻿using System;
 using StateControl;
-using System.Collections.Generic;
 
 namespace MonsterAISystem
 {
@@ -10,32 +9,9 @@ namespace MonsterAISystem
     private int typeID;
     private string monsterID;
 
-    private List<IStateCondition> conditionList; 
-
     private Action<string> enterMethod;
     private Action<string> executeMethod;
     private Action<string> exitMethod;
-
-    public MonsterStateBase()
-    {
-      conditionList = new List<IStateCondition>();
-    }
-
-    /// <summary>
-    /// 條件檢查
-    /// </summary>
-    public int CheckCondition()
-    {
-      for (int i = 0; i < conditionList.Count; i++)
-      {
-        int stateID = conditionList[i].CheckCondition();
-
-        if (stateID > -1)
-          return stateID;
-      }
-
-      return -1;
-    }
 
     /// <summary>
     /// 進入該狀態時做的事
@@ -73,41 +49,48 @@ namespace MonsterAISystem
       exitMethod = GetMethod(jsonMonster.exit);
     }
 
+    // 取得方法
     private Action<string> GetMethod(string typeName)
     {
+      // 名稱不為空
       if (!string.IsNullOrEmpty(typeName))
       {
+        // 取得存放方法的 class
         Type type = Type.GetType(string.Format("MonsterAISystem.{0}", typeName));
-
         var m = Activator.CreateInstance(type);
         AIMethod<string> aiMethod = (AIMethod<string>)m;
 
+        // 返回該 class的方法
         return aiMethod.Method;
       }
 
       return NoThing;
     }
 
-    public void SetCondition(IStateCondition stateCondition)
-    {
-      conditionList.Add(stateCondition);
-    }
-
+    /// <param name="id"></param>
     public void NoThing(string id)
     {
 
     }
 
-    public List<IStateCondition> GetStateCondition { get { return conditionList; } }
-
-    public int GetNodeID { get { return typeID; } }
+    public int GetID { get { return typeID; } }
   }
 
-  public interface IMonsterStateBase : IAIState<int>
+  public interface IMonsterStateBase : IAIState
   {
-    int GetNodeID { get; }
+    /// <summary>
+    /// 取得該狀態的 ID
+    /// </summary>
+    int GetID { get; }
+
+    /// <summary>
+    /// 設置該狀態的資料
+    /// </summary>
     void SetData(IDataBase data, string id);
-    void SetCondition(IStateCondition stateCondition);
+
+    /// <summary>
+    /// 不做任何事
+    /// </summary>
     void NoThing(string id);
   }
 }

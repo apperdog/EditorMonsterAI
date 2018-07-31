@@ -11,7 +11,7 @@ public class Test : MonoBehaviour
     MonsterDataList dataList = DataSystem.GetSystem<MonsterDataList>();
 
     MonsterData monsterData = new MonsterData();
-    monsterData.hp = 11;
+    monsterData.hp = 120;
     monsterData.mp = 120;
     monsterData.MaxHP = 120;
     monsterData.MaxMP = 120;

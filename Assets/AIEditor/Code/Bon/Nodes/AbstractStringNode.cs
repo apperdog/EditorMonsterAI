@@ -7,6 +7,7 @@ namespace Assets.Code.Bon.Nodes
 
 		protected AbstractStringNode(int id, Graph parent) : base(id, parent)
 		{
+
 		}
 
 		public abstract string GetString(OutputSocket outSocket);

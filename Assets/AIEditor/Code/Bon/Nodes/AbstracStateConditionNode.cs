@@ -18,15 +18,32 @@ namespace Assets.Code.Bon.Nodes
       Sockets.Add(inputSocket01);
     }
 
-    public int GetOutputAI()
+    public int GetOutputAiId
     {
-      if (outSocket.IsConnected())
+      get
       {
-        AbstracMonsterAINode node = (AbstracMonsterAINode)outSocket.GetConnectedSocket(0).Parent;
-        return node.Id;
-      }
+        if (outSocket.IsConnected())
+        {
+          AbstracMonsterAINode node = (AbstracMonsterAINode)outSocket.GetConnectedSocket(0).Parent;
+          return node.Id;
+        }
 
-      return -1;
+        return -1;
+      }
+    }
+
+    public int GetInputAiId
+    {
+      get
+      {
+        if (inputSocket01.IsConnected())
+        {
+          AbstracMonsterAINode node = (AbstracMonsterAINode)inputSocket01.GetConnectedSocket().Parent;
+          return node.Id;
+        }
+
+        return -1;
+      }
     }
   }
 }

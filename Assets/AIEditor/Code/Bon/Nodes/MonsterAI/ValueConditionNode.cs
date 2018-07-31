@@ -109,20 +109,22 @@ namespace Assets.Code.Bon.Nodes.MonsterAINode
 
     public override IDataBase GetDataBase()
     {
+      if (!outSocket.IsConnected() || !inputSocket01.IsConnected())
+        return default(IDataBase);
+
       ValueCondition condition = new ValueCondition();
 
-      JsonHPCondition json = new JsonHPCondition();
+      JsonValueCondition json = new JsonValueCondition();
 
       json.typeID = Id;
 
-      json.hp = v1;
-      json.hp2 = v2;
+      json.value1 = v1;
+      json.value2 = v2;
       json.percentage = percentage;
       json.valueType = (int)valueType;
       json.valueConditionType = (int)valueConditionType;
-
-      json.nextConditionID = GetOutputAI();
-
+      json.nextStateID = GetOutputAiId;
+      json.currestStateID = GetInputAiId;
       json.createType = condition.GetType().FullName;
 
       return json;

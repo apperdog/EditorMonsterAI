@@ -4,10 +4,14 @@ using StateControl;
 
 namespace MonsterAISystem
 {
+  /// <summary>
+  /// 數值條件
+  /// </summary>
   public class ValueCondition : IStateCondition
   {
     private int id;
     private int nextID;
+    private int currest;
     private float value1;
     private float value2;
     private bool percentage;
@@ -17,11 +21,14 @@ namespace MonsterAISystem
 
     public int CheckCondition()
     {
+      // 取得怪物資料
       MonsterDataList monsterDataList = DataSystem.GetSystem<MonsterDataList>();
       MonsterData monsterData = monsterDataList.GetData(monsterID);
 
+      // 
       float v = 0;
 
+      // 檢查類型
       switch (valueType)
       {
         case GlobalEnum.ValueType.HP:
@@ -39,6 +46,7 @@ namespace MonsterAISystem
           break;
       }
 
+      // 判斷條件
       switch (valueConditionType)
       {
         case ValueConditionType.Less:
@@ -62,18 +70,21 @@ namespace MonsterAISystem
 
     public void SetData(IDataBase data)
     {
-      JsonHPCondition json = (JsonHPCondition)data;
+      JsonValueCondition json = (JsonValueCondition)data;
 
-      value1 = json.hp;
-      value2 = json.hp2;
+      value1 = json.value1;
+      value2 = json.value2;
       id = json.typeID;
+      currest = json.currestStateID;
       percentage = json.percentage;
-      nextID = json.nextConditionID;
+      nextID = json.nextStateID;
       valueType = (GlobalEnum.ValueType)json.valueType;
       valueConditionType = (ValueConditionType)json.valueConditionType;
     }
 
     public int GetID { get { return id; } }
+
+    public int CurrestStateID { get { return currest; } }
 
     public string SetMonsterID { set { monsterID = value; }}
   }
@@ -86,10 +97,10 @@ namespace MonsterAISystem
   }
 
   [Serializable]
-  public class JsonHPCondition : JsonCondition
+  public class JsonValueCondition : JsonCondition
   {
-    [SerializeField] public float hp;
-    [SerializeField] public float hp2;
+    [SerializeField] public float value1;
+    [SerializeField] public float value2;
     [SerializeField] public bool percentage;
     [SerializeField] public int valueType;
     [SerializeField] public int valueConditionType;

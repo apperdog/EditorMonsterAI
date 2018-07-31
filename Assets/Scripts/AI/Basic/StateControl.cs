@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace StateControl
 {
-  public interface IAIState<T>
+  public interface IAIState
   {
     /// <summary>
     /// 進入
@@ -20,36 +20,18 @@ namespace StateControl
     ///  離開
     /// </summary>
     void Exit();
-
-    /// <summary>
-    /// 條件檢查
-    /// </summary>
-    T CheckCondition();
-
-    /// <summary>
-    /// 取得條件
-    /// </summary>
-    List<IStateCondition> GetStateCondition { get; }
   }
 
 
-  [Serializable]
-  public class StateMachine<T, T2>
+  public class StateMachine
   {
-    [SerializeField]
-    private T t;
-
-    [SerializeField]
-    private IAIState<T2> currestState;  // 當前
-    [SerializeField]
-    private IAIState<T2> previousState;  // 上一個
+    private IAIState currestState;  // 當前
+    private IAIState previousState;  // 上一個
 
     private bool bcurrestState;
 
-    public StateMachine(T t)
+    public StateMachine()
     {
-      this.t = t;
-
       bcurrestState = false;
 
       currestState = null;
@@ -59,7 +41,7 @@ namespace StateControl
     /// <summary>
     /// 設置當前狀態
     /// </summary>
-    public void SetCurrestState(IAIState<T2> state)
+    public void SetCurrestState(IAIState state)
     {
       currestState = state;
       currestState.Enter();
@@ -73,7 +55,7 @@ namespace StateControl
     /// <summary>
     /// 狀態切換
     /// </summary>
-    public void ChangeState(IAIState<T2> state)
+    public void ChangeState(IAIState state)
     {
       currestState.Exit();
       previousState = currestState;
@@ -98,22 +80,10 @@ namespace StateControl
       }
     }
 
-    public int CheckCondition()
-    {
-      List<IStateCondition> stateConditions = currestState.GetStateCondition;
-
-      for(int i = 0; i < stateConditions.Count; i++)
-      {
-        // 取得切換狀態
-        int change = stateConditions[i].CheckCondition();
-
-        // 如果有切換狀態名稱
-        if (change > -1)
-          return change;
-      }
-
-      return -1;
-    }
+    /// <summary>
+    /// 當前的狀態
+    /// </summary>
+    public IAIState GetCurrestState { get { return currestState; } }
   }
 }
 

@@ -6,24 +6,20 @@ using System.Collections.Generic;
 
 namespace MonsterAISystem
 {
-  public interface IMonsterAI
-  {
-    AIStateType AIState { get; set; }
-  }
 
   /// <summary>
   /// AI 容器
   /// </summary>
   public class MonsterStateMachine
   {
-    public StateMachine<IMonsterAI, int> machine;  // 狀態容器
+    public StateMachine machine;  // 狀態容器
 
     private Dictionary<int, MonsterStateBase> monsterStates;  // 狀態條件
     private Dictionary<int, IStateCondition> monsterCondition;  // 狀態
 
-    public MonsterStateMachine(IMonsterAI monsterAI)
+    public MonsterStateMachine()
     {
-      machine = new StateMachine<IMonsterAI, int>(monsterAI);
+      machine = new StateMachine();
       monsterStates = new Dictionary<int, MonsterStateBase>();
       monsterCondition = new Dictionary<int, IStateCondition>();
     }
@@ -41,10 +37,7 @@ namespace MonsterAISystem
     /// </summary>
     public void SetState(JsonMonsterAI jsonMonster, MonsterStateBase monsterState)
     {
-      monsterStates.Add(monsterState.GetNodeID, monsterState);
-
-      for (int i = 0; i < jsonMonster.currestConditionID.Count; i++)
-        monsterState.SetCondition(monsterCondition[jsonMonster.currestConditionID[i]]);     
+      monsterStates.Add(monsterState.GetID, monsterState);
     }
 
     public void StartAI()
@@ -67,8 +60,30 @@ namespace MonsterAISystem
     /// </summary>
     public void CheckCondition()
     {
-      int change = machine.CheckCondition();
-      ChangeState(change);
+      int change = -1;
+
+      // 取得當前狀態 ID
+      IMonsterStateBase ai = (IMonsterStateBase)machine.GetCurrestState;
+      int aiID = ai.GetID;
+
+      // 遍尋所有
+      var e = monsterCondition.GetEnumerator();
+
+      while (e.MoveNext())
+      {
+        IStateCondition condition = e.Current.Value;
+        int id = condition.CurrestStateID;
+
+        // 該條件得當前狀態 ID與當前狀態 ID相同的話
+        if (id == aiID)
+          change = condition.CheckCondition();
+
+        if(change > -1)
+        {
+          ChangeState(change);
+          break;
+        }
+      }
     }
 
     /// <summary>
@@ -89,7 +104,6 @@ namespace MonsterAISystem
     [SerializeField] public bool bFrist;
     [SerializeField] public int typeID;
     [SerializeField] public string enter, excuse, exit;
-    [SerializeField] public List<int> currestConditionID;
 
     public void Destory()
     {
