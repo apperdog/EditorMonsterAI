@@ -16,7 +16,7 @@ https://github.com/aphex-/BrotherhoodOfNode
 
 ### 開始編輯
 ![Image](https://github.com/apperdog/EditorMonsterAI/blob/master/show3.png)
-<br>1.Open,打開以儲存的檔案</br>
+<br>1.Open,打開已儲存的檔案。</br>
 2.Save,儲存編輯檔案，檔案以json格式儲存。儲存時會生成兩個檔案，檔案名默認為EditorData與EditorDataUseData。EditorData為編輯器使用的檔案。EditorDataUseData為進行遊戲使用的檔案。
 
 
