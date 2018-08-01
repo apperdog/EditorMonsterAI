@@ -15,6 +15,11 @@ https://github.com/aphex-/BrotherhoodOfNode
 
 
 ### 開始編輯
+![Image](https://github.com/apperdog/EditorMonsterAI/blob/master/show3.png)
+
+
+
+### 編輯狀態機
 ![Image](https://github.com/apperdog/EditorMonsterAI/blob/master/show2.png)
 <br>1.MonsterAI => Control，建立狀態控制器。狀態控制器為，儲存該狀態執行的操作。執行的操作有，進入該狀態時、每次update時、離開該狀態時執行的方法。</br>
 2.Monster => Value Condition，建立條件判斷。
