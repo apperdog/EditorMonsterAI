@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MonsterAISystem
 {
-  public class A002: AIMethod<string>
+  public class A002: IMethod<string>
   {
     public void Method(string t)
     {

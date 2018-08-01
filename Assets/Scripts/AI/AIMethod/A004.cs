@@ -2,7 +2,7 @@
 
 namespace MonsterAISystem
 {
-  public class A004 : AIMethod<string>
+  public class A004 : IMethod<string>
   {
     public void Method(string t)
     {

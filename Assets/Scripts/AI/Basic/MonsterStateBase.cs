@@ -58,7 +58,7 @@ namespace MonsterAISystem
         // 取得存放方法的 class
         Type type = Type.GetType(string.Format("MonsterAISystem.{0}", typeName));
         var m = Activator.CreateInstance(type);
-        AIMethod<string> aiMethod = (AIMethod<string>)m;
+        IMethod<string> aiMethod = (IMethod<string>)m;
 
         // 返回該 class的方法
         return aiMethod.Method;
