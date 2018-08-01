@@ -45,6 +45,32 @@ public class MessageSystem
   }
 
   /// <summary>
+  /// 取得類別
+  /// </summary>
+  public static T GetClass<T>(string typeName) where T : IObserverBase
+  {
+    IObserverBase mVC_Base;
+
+    if (mvcDictionary.TryGetValue(typeName, out mVC_Base))
+      return (T)mVC_Base;
+
+    return default(T);
+  }
+
+  /// <summary>
+  /// 取得類別
+  /// </summary>
+  public static T GetClass<T>() where T : IObserverBase
+  {
+    IObserverBase mVC_Base;
+
+    if (mvcDictionary.TryGetValue(typeof(T), out mVC_Base))
+      return (T)mVC_Base;
+
+    return default(T);
+  }
+
+  /// <summary>
   /// 事件推送，啟用他類的方法
   /// </summary>
   public static void PushOnEvent(string targetClass, string eventName)
