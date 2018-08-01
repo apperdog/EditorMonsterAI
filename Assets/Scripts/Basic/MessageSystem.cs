@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class MessageSystem
 {
-  private static Dictionary<string, IObserverBase> mvcDictionary = new Dictionary<string, IObserverBase>();
+  private static Dictionary<object, IObserverBase> mvcDictionary = new Dictionary<object, IObserverBase>();
 
   private MessageSystem()
   {
@@ -13,9 +14,17 @@ public class MessageSystem
   /// <summary>
   /// 添加監控
   /// </summary>
-  public static void AddListen<T>(string typeName, IObserverBase mVC_Base) where T : IObserverBase
+  public static void AddListen<T>(string typeName, IObserverBase observerBase) where T : IObserverBase
   {
-    mvcDictionary.Add(typeName, mVC_Base);
+    mvcDictionary.Add(typeName, observerBase);
+  }
+
+  /// <summary>
+  /// 添加監控
+  /// </summary>
+  public static void AddListen<T>(IObserverBase observerBase) where T : IObserverBase
+  {
+    mvcDictionary.Add(observerBase.GetType(), observerBase);
   }
 
   /// <summary>
@@ -24,6 +33,15 @@ public class MessageSystem
   public static void RemoveListen<T>(string typeName) where T : IObserverBase
   {
     mvcDictionary.Remove(typeName);
+  }
+
+  /// <summary>
+  /// 監控移除
+  /// </summary>
+  public static void RemoveListen<T>() where T : IObserverBase
+  {
+    Type t = typeof(T);
+    mvcDictionary.Remove(t);
   }
 
   /// <summary>
